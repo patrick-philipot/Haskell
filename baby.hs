@@ -4,6 +4,7 @@
 -- changer le prompt
 -- |	:set prompt "ghci> "
 -- |	sous MAc le caractère | s'obtient avec les touches Shift+Option+L
+-- |	:quit pour sortir
 
 -- Exemples de foncions
 
@@ -74,6 +75,88 @@ rightTriangles = [ (a,b,c) | c <- [1..10] , b <- [1..c] , a <- [1..b] , a^2 + b^
 -- [(6,8,10)]
 
 -- TYPES AND TYPES CLASSES p20
+
+-- | la commande :t variable affiche le type d'une variable
+-- | :t rightTriangles
+-- | rightTriangles :: [(Integer, Integer, Integer)]
+
+-- | Fonctionne aussi sur les fonctions
+-- | ghci> :t removeNonUppercase
+-- | removeNonUppercase :: [Char] -> [Char]
+
+-- | La définition d'une fonction peut inclure une déclaration explicite des types
+-- | removeNonUppercase :: [Char] -> [Char]
+-- | removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+
+-- TYPES VARIABLES (généric)
+
+-- La commande head fonctionne avec une liste de tous types
+-- ici a désigne une valeur de tout type
+
+-- | ghci> :t head
+-- | head :: [a] -> a
+
+-- On utilise des lettres minuscules pour désigner les types
+
+-- | fst :: (a, b) -> a
+
+-- LE TYPECLASSE précise les propriétés d'un élément
+-- | Eq décrit qu'une valeur supporte l'égalité
+-- ghci> :t (==)
+-- (==) :: Eq a => a -> a -> Bool
+
+-- Quelques typeclasses
+-- Ord décrit des membres comparables avec <, >, >=, ...
+-- Show des membres affichables sous forme de chaine
+
+-- | ghci> show 1
+-- | "1"
+
+-- Read est le réciproque de show
+-- | read "5" - 2
+-- | 3
+
+-- Num désigne les numériques, un Num est forcément un Show et un Eq
+-- Exemple de la multiplication
+-- | ghci> :t (*)
+-- | (*) :: (Num a) => a -> a -> a
+
+-- SYNTAX IN FUNCTIONS
+-- La définition d'une fonction peut définir plusieurs patterns
+-- L'ordre est important
+-- | sayMe :: (Integral a) => a -> String
+-- | sayMe 1 = "One!"
+-- | sayMe 2 = "Two!"
+-- | sayMe 3 = "Three!"
+-- | sayMe 4 = "Four!"
+-- | sayMe 5 = "Five!"
+-- | sayMe x = "Not between 1 and 5"
+
+sayMe :: (Integral a) => a -> String
+sayMe 1 = "One!"
+sayMe 2 = "Two!"
+sayMe 3 = "Three!"
+sayMe 4 = "Four!"
+sayMe 5 = "Five!"
+sayMe x = "Not between 1 and 5"
+
+-- FONCTION Définie par récursion
+
+factorial :: (Integral a) => a -> a
+factorial 0 = 1
+factorial n = n * factorial (n - 1)
+
+-- GUARDS testent certaines propriétés p31
+
+bmiTell :: (RealFloat a) => a -> String
+bmiTell bmi
+  | bmi <= 18.5 = "You're underweight, you emo, you!"
+  | bmi <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
+  | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"
+  | otherwise = "You're a whale, congratulations!"
+
+
+
 
 
 
