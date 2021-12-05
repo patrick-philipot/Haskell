@@ -1,0 +1,29 @@
+-- exemples de fonctions
+
+doubleUs x y = doubleMe x + doubleMe y
+doubleMe x = x + x
+doubleSmallNumber' x = (if x > 100 then x else x*2) + 1
+
+-- syntaxe
+-- liste [1,2,3]
+
+-- List comprehension
+-- sur le Mac ce caractère | est obtenu avec Shift+Option+L
+removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+length' xs = sum [1 | _ <- xs]
+-- le caractère _ désigne une variable non utilisée
+-- cette définition prend une liste et retourne une liste où tous les éléments
+-- ont été remplacés par des 1
+-- uns [1,2,3] retourne [1,1,1]
+uns xs = [1 | _ <- xs]
+
+-- ZIP genere des tuples à partir de 2 listes
+famous = zip ["jules","Hercule"]["Cesar","Poirot"]
+
+-- Ici on recherche s'il existe des triangles rectangles
+-- dont les cotés ont une longeur comprise entre 1 et 10
+-- dont la somme des cotés vaut 24
+-- on choisit que c sera le plus grand
+let rightTriangles = [ (a,b,c) | c <- [1..10] , b <- [1..c] , a <- [1..b] , a^2 + b^2 == c^2, a+b+c == 24]
+
+-- le résultat est une liste avec un unique élément [(6,8,10)]
