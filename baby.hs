@@ -5,6 +5,7 @@
 -- |	:set prompt "ghci> "
 -- |	sous MAc le caractère | s'obtient avec les touches Shift+Option+L
 -- |	:quit pour sortir
+-- |	sous Windows :! cls vide la console
 
 -- Exemples de foncions
 
@@ -146,6 +147,15 @@ factorial :: (Integral a) => a -> a
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
 
+-- Le PATTERN something@ permet de guarder une référence sur l'intégralité de la liste
+capital :: String -> String
+capital "" = "Empty string, whoops!"
+capital all@(x:xs) = "The first letter of " ++ all ++ " is " ++ [x]
+
+-- |	ghci> capital "spiderman"
+-- |	"The first letter of spiderman is s"
+
+
 -- GUARDS testent certaines propriétés p31
 
 bmiTell :: (RealFloat a) => a -> String
@@ -155,8 +165,58 @@ bmiTell bmi
   | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"
   | otherwise = "You're a whale, congratulations!"
 
+myCompare :: (Ord a) => a -> a -> Ordering
+a `myCompare` b
+  | a > b = GT
+  | a == b = EQ
+  | otherwise = LT
+
+-- WHERE permet d'éviter les répétitions
+
+bmiTell' :: (RealFloat a) => a -> a -> String
+bmiTell' weight height
+  | bmi <= 18.5 = "You're underweight, you emo, you!"
+  | bmi <= 25.0 = "You're supposedly normal. Pffft, I bet you're ugly!"
+  | bmi <= 30.0 = "You're fat! Lose some weight, fatty!"
+  | otherwise = "You're a whale, congratulations!"
+  where bmi = weight / height ^ 2
+
+bmiTell2 :: (RealFloat a) => a -> a -> String
+bmiTell2 weight height
+  | bmi <= skinny = "You're underweight, you emo, you!"
+  | bmi <= normal = "You're supposedly normal. Pffft, I bet you're ugly!"
+  | bmi <= fat = "You're fat! Lose some weight, fatty!"
+  | otherwise = "You're a whale, congratulations!"
+  where bmi = weight / height ^ 2
+        skinny = 18.5
+        normal = 25.0
+        fat = 30.0
+
+initials :: String -> String -> String
+initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
+  where (f:_) = firstname
+        (l:_) = lastname
+
+-- LET BINDING
+
+cylinder :: (RealFloat a) => a -> a -> a
+cylinder r h =
+  let sideArea = 2 * pi * r * h
+      topArea = pi * r ^2
+  in  sideArea + 2 * topArea
+
+-- il est possible d'utiliser le point-virgule plutôt que l'indentation
+
+semicolons = (let a = 100; b = 200; c = 300 in a*b*c, let foo="Hey "; bar = "there!" in foo ++ bar)
 
 
+-- CASE EXPRESSIONS
+
+head' xs = case xs of [] -> error "No head for empty lists!"
+                      (x:_) -> x
+
+
+-- RECURSION p38
 
 
 
