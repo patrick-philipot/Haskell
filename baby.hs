@@ -247,9 +247,53 @@ quicksort (x:xs) =
 
 ---HIGHER ORDER FUNCTIONS p44
 
+-- une fonction Haskell n'accepte jamais qu'un seul paramètre
+-- Démonstration avec max 4 5
+--  | ghci> max 4 5
+--  | 5
+--  | ghci> (max 4) 5
+--  | 5 !! (max 4) est une fonction qui n'a qu'un paramètre
+--  | ghci> f = (max 4)
+--  | ghci> f 5
+--  | 5
+--  | ghci> f 3
+--  | 4
 
+multThree :: (Num a) => a -> a -> a -> a
+multThree x y z = x * y * z
 
+-- il est possible de créer une nouvelle fonction en ne passant pas 
+-- tous les paramètres
 
+-- | ghci> let multTwoWithNine = multThree 9
+-- | ghci> multTwoWithNine 2 3
+-- | 54  !! 54 = (9*2)*3 ! 9*2*3
 
+-- | ghci> let multWithEighteen = multTwoWithNine 2
+-- | ghci> multWithEighteen 10
+-- | 180  !! (9*2) * 10 
 
+-- PARTIAL INFIX FUNCTIONS (notation spéciale)
 
+divideByTen :: (Floating a) => a -> a
+divideByTen = (/10)
+
+isUpperAlphanum :: Char -> Bool
+isUpperAlphanum = (`elem` ['A'..'Z'])
+
+-- Le premier paramètre est une fonction
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)
+
+-- | ghci> applyTwice (+3) 10
+-- | 16
+-- | ghci> applyTwice (++ " HAHA") "HEY"
+-- | "HEY HAHA HAHA"
+-- | ghci> applyTwice ("HAHA " ++) "HEY"
+-- | "HAHA HAHA HEY"
+-- | ghci> applyTwice (multThree 2 2) 9
+-- | 144
+-- | ghci> applyTwice (3:) [1]
+-- | [3,3,1]
+
+--ZIPWITH recréation p47
