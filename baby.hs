@@ -391,7 +391,32 @@ oddSquaresSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
 -- | map' :: (a -> b) -> [a] -> [b]
 -- | map' f xs = foldr (\x acc -> f x : acc) [] xs
 
--- p55
+--FOLDL1 et FOLDR1 p55
+--fonctionne comme foldl et foldr mais sans valeur initiale
+--la valeur initiale et la 1ère (foldl1) ou la dernière de la liste
+
+--Les commandes FOLD peuvent s'utiliser pour réécrire les fonctions
+--maximun, reverse, product, filter, head, last
+
+-- | maxim = foldr1 (\x acc -> if x > acc then x else acc)
+-- | rever = foldl (\acc x -> x : acc) []
+-- | produ = foldr1 (*)
+-- | Attention partir de la droite, soit foldr
+-- | foldl produirait une liste infinie
+-- | filte p = foldr (\x acc -> if p x then x : acc else acc) []
+-- | head2 = foldr1 (\x _ -> x)
+-- | last2 = foldl1 (\_ x -> x)
+
+--SCANL,SCANR, SCANL1, SCANR1 p57
+-- Ces fonctions retournent tous les états de l'accumulateur dans une liste
+
+-- | ghci> scanl (+) 0 [3,5,2,1]
+-- | [0,3,8,10,11]
+-- | ghci> scanr (+) 0 [3,5,2,1]
+-- | [11,8,3,1,0]
+-- | ghci> scanl1 (\acc x -> if x > acc then x else acc) [3,4,5,3,7,9,2,1]
+-- | [3,4,5,5,7,9,9,9]
+
 
 
 
