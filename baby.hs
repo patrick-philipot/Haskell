@@ -6,12 +6,13 @@
 -- |	sous MAc le caractère | s'obtient avec les touches Shift+Option+L
 -- |	:quit pour sortir
 -- |	sous Windows :! cls vide la console
+-- |  :doc haskell_function affiche une description de cette fonction
 
 -- Exemples de foncions
 
 doubleUs x y = doubleMe x + doubleMe y
 doubleMe x = x + x
-doubleSmallNumber' x = (if x > 100 then x else x*2) + 1
+doubleSmallNumber' x = if x > 100 then x else x*2
 
 --  LISTS
 --  Tous les éléments sont du même type
@@ -245,6 +246,15 @@ quicksort (x:xs) =
       biggerSorted = quicksort [a | a <- xs, a > x]
   in smallerSorted ++ [x] ++ biggerSorted
 
+-- Autre définition de Quicksort utilisant WHERE
+-- | qs :: (Ord a) => [a] -> [a]
+-- | qs [] = []
+-- | qs (x:xs) = smallerSorted ++ [x] ++ biggerSorted
+-- |   where smallerSorted = qs (filter (<=x) xs)
+-- |         biggerSorted = qs (filter (>x) xs)
+
+
+
 ---HIGHER ORDER FUNCTIONS p44
 
 -- une fonction Haskell n'accepte jamais qu'un seul paramètre
@@ -316,3 +326,76 @@ filter' p (x:xs)
 --Some de tous les carrés impairs et plus petits que 10000
 
 oddSquaresSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+--MAP peut générer une liste de fonction
+--ListOfFuns est une liste infinie dont le 1er élément est une fonction 
+--multipliant son paramètre par zéro, le 2èmé élément multiplie par 1, le 
+--3ème par 2, etc
+
+-- | ghci> let listOfFuns = map (*) [0..]
+-- | ghci> (listOfFuns !! 4) 5
+-- | 20
+
+--Collatz sequences : à partir d'un nombre N, on applique l'algorithme suivant
+--si N est impair, on le multiplie par 3, sinon on le divise par 2.
+
+-- | chain :: (Integral a) => a -> [a]
+-- | chain 1 = [1]
+-- | chain n
+-- |   | even n = n:chain (n `div` 2)
+-- |   | odd n = n:chain (n*3 + 1)
+-- | 
+-- | numLongChains :: Int
+-- | numLongChains = length (filter isLong (map chain [1..100]))
+-- |   where isLong xs = length xs > 15
+
+-- LAMBDAS fonctions
+-- C'est une écriture abrégé pour une fonction qu'on appelera une seule fois
+
+-- | Nouvelle version de numLongChains où isLong est remplacé par une lambda
+
+-- | numLongChains :: Int
+-- | numLongChains = length (filter (\xs -> length xs > 15) (map chain [1..100]))
+
+-- (\xs -> length xs > 15) comme isLong est une fonction retournant un booléen.
+
+-- Une lamda peut accepter plusieurs paramètres
+
+-- | ghci> zipWith (\a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5]
+-- | [153.0,61.5,31.0,15.75,6.6]
+
+-- | ghci> map (\(a,b) -> a + b) [(1,2),(3,5),(6,3),(2,6),(2,5)]
+-- | [3,8,9,8,7]
+
+-- FOLDS p53
+-- Fold réduit une liste avec un parcours depuis la gauche, foldl ou
+-- depuis la droite, foldr.
+
+-- version explicite utilisant une lambda
+-- | sum' :: (Num a) => [a] -> a
+-- | sum' xs = foldl (\acc x -> acc + x) 0 xs
+
+-- si on note que (\acc x -> acc + x) revient à appliquer (+).
+
+-- | sum' :: (Num a) => [a] -> a
+-- | sum' = foldl (+) 0
+
+-- Réécriture de elem (mais elle parcours toute la liste, même si l'élément
+-- est trouvé au début). Noter le : "then True else acc" qui conserve le True
+
+-- | elem' :: (Eq a) => a -> [a] -> Bool
+-- | elem' y ys = foldl (\acc x -> if x == y then True else acc) False ys
+
+-- Réécriture de MAP avec foldr
+
+-- | map' :: (a -> b) -> [a] -> [b]
+-- | map' f xs = foldr (\x acc -> f x : acc) [] xs
+
+-- p55
+
+
+
+
+
+
+
