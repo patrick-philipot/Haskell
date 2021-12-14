@@ -1,12 +1,15 @@
--- HASKELL mini doc
+git status-- HASKELL mini doc
 
 -- GHCI
 -- changer le prompt
 -- |	:set prompt "ghci> "
 -- |	sous MAc le caractère | s'obtient avec les touches Shift+Option+L
 -- |	:quit pour sortir
--- |	sous Windows :! cls vide la console
+-- |  sous Windows :! cls vide la console
+-- |	et avec git-bash  :! clear
 -- |  :doc haskell_function affiche une description de cette fonction
+-- |  Sélection verticale dans SublimeText Windows :
+-- |  bouton droit de la souris + Shift
 
 -- Exemples de foncions
 
@@ -416,6 +419,51 @@ oddSquaresSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
 -- | [11,8,3,1,0]
 -- | ghci> scanl1 (\acc x -> if x > acc then x else acc) [3,4,5,3,7,9,2,1]
 -- | [3,4,5,5,7,9,9,9]
+
+
+--FONCTION APPLICATION avec $ p57
+
+-- | ($) :: (a -> b) -> a -> b
+-- | f $ x = f x
+
+-- Cette fonction $ permet de ne pas utiliser de parenthèses 
+-- car elle a une priorité inférieure à tous les autres opérateurs
+
+-- | ghci> sqrt 4 + 4 + 1
+-- | 7.0
+-- | ghci> sqrt (4 + 4 + 1)
+-- | 3.0
+-- | ghci> sqrt $ 4 + 4 + 1
+-- | 3.0
+
+--$ permet aussi d'appliquer un paramètre à une liste de fonctions
+
+-- | ghci> map ($ 3) [(4+), (10*), (^2), sqrt]
+-- | [7.0,30.0,9.0,1.7320508075688772]
+
+--FONCTION COMPOSITION p58
+
+-- | (.) :: (b -> c) -> (a -> b) -> a -> c
+-- | f . g = \x -> f (g x)
+
+--(.) permet de créer des fonctions à la volée et permet de remplacer une lambda.
+
+-- Cette fonction multiplie sont paramètre par 3 puis inverse le signe du résultat
+
+-- | ghci> f = negate.(* 3)
+-- | ghci> f 4
+-- | -12
+
+-- Exemple : passer tous les éléments d'une liste en négatif
+-- Versions lambda et composition
+
+-- | ghci> map (\x -> negate (abs x)) [ -1, 3, -4, 5]
+-- | [-1,-3,-4,-5]
+-- | ghci> map (negate . abs) [ -1, 3, -4, 5]
+-- | [-1,-3,-4,-5]
+
+
+
 
 
 
