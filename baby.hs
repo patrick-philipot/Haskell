@@ -462,6 +462,62 @@ oddSquaresSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
 -- | ghci> map (negate . abs) [ -1, 3, -4, 5]
 -- | [-1,-3,-4,-5]
 
+-- Autres exemples de simplification (remarquer que max attends 2 paramètres)
+
+-- | ghci> replicate 5 (max 6.7 8.9)
+-- | [8.9,8.9,8.9,8.9,8.9]
+-- | ghci> sum (replicate 5 (max 6.7 8.9))
+-- | 44.5
+-- | ghci> sum . replicate 5 . max 6.7 $ 8.9
+-- | 44.5
+
+-- | ghci> fn x = ceiling (negate (tan (cos (max 50 x))))
+-- | ghci> fn 100
+-- | -1
+-- | ghci> fn = ceiling . negate . tan . cos . max 50
+-- | ghci> fn 100
+-- | -1
+
+ --NE PAS ABUSER DE LA COMPOSITION (trop longue = peu lisible)
+ -- Exemple - composition version
+
+-- | oddSquareSum :: Integer
+-- | oddSquareSum = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]
+
+-- Exemple plus lisible avec LET
+
+-- | oddSquareSum :: Integer
+-- | oddSquareSum =
+-- |   let oddSquares = filter odd $ map (^2) [1..]
+-- |       belowLimit = takeWhile (<10000) oddSquares
+-- |   in  sum belowLimit
+
+-- MODULES p70
+-- | import Data.List
+
+-- nun est une fonction du module Data.List qui élimine les doublons.
+-- elle est maintenant utilisable
+
+-- | ghci> nub [1,1,2,3,4,4]
+-- | [1,2,3,4]
+
+-- Il est possible de préciser les fonctions à importer, ou d'exclure certaines.
+
+-- | import Data.List (nub, sort)
+-- | import Data.List hiding (nub)
+
+-- Quand une fonction de module utilise le même nom qu'une fonction existante
+-- cette syntaxe s'appplique
+
+-- | import qualified Data.Map
+-- | ou
+-- | import qualified Data.Map as M
+
+--LE MODULE DATA.LIST p62
+
+
+
+
 
 
 
