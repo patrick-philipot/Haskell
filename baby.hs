@@ -515,16 +515,59 @@ oddSquaresSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
 
 --LE MODULE DATA.LIST p62
 
+-- | ghci> intersperse '.' "MONKEY"
+-- | "M.O.N.K.E.Y"
+-- | 
+-- | ghci> intercalate " " ["hey","there","guys"]
+-- | "hey there guys"
+-- | 
+-- | ghci> transpose [[1,2,3],[4,5,6],[7,8,9]]
+-- | [[1,4,7],[2,5,8],[3,6,9]]
+
+-- |    1 | 2 |  3                    1 | 4 |  7
+-- |    --+---+---                    --+---+---
+-- |    4 | 5 |  6       ==>          2 | 5 |  8      
+-- |    --+---+---                    --+---+---
+-- |    7 | 8 |  9                    3 | 6 |  9
+
+-- | ghci> concat [[3,4,5],[2,3,4],[2,1,1]]
+-- | [3,4,5,2,3,4,2,1,1]
+-- | 
+-- | ghci> and $ map (>4) [5,6,7,8]
+-- | True
+-- | ghci> and $ map (==4) [4,4,4,3,4]
+-- | False
+
+-- | ghci> any (==4) [2,3,5,6,1,4]
+-- | True
+-- | ghci> all (>4) [6,9,10]
+-- | True
+
+-- | ghci> take 3 $ iterate (++ "haha") "haha"
+-- | ["haha","hahahaha","hahahahahaha"]
+-- | 
+-- | GHCI> splitAt 3 "heyman"
+-- | ("hey","man")
+-- | GHCI> splitAt 2 "heyman"
+-- | ("he","yman")
+-- | GHCI> splitAt 4 "heyman"
+-- | ("heym","an")
+
+-- | ghci> sum $ takeWhile (<10000) $ map (^3) [1..]
+-- | 53361
+-- | 
+-- | ghci> dropWhile (<3) [1,2,2,2,3,4,5,4,3,2,1]
+-- | [3,4,5,4,3,2,1]
+
+-- | ghci> let (fw, rest) = span (/=' ') "This is a sentence" in
+-- | "First word:" ++ fw ++ ", the rest:" ++ rest
+-- | "First word: This, the rest: is a sentence"
+ 
+-- | ghci> break (==4) [1,2,3,4,5,6,7]
+-- | ([1,2,3],[4,5,6,7])
+-- | ghci> span (/=4) [1,2,3,4,5,6,7]
+-- | ([1,2,3],[4,5,6,7])
 
 
-
-
-
-
-
-
-
-
-
-
+-- SEARCH p70
 
